@@ -103,7 +103,12 @@ const useStyles = makeStyles((theme) => ({
             padding: 20,
             "& ul": {
                 paddingLeft: 20
-            }
+            },
+            "& div": {                
+                '& h3': {                    
+                    maxWidth: 272
+                }
+            }, 
         },
 
     },

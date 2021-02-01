@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import LogoWhite from '../../assets/images/logo-white.png';
@@ -37,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
         right_image: {
             display: 'none'
+        },
+        text_part: {
+            '& h1': {
+                fontSize: 34,
+                lineHeight: '55px'
+            }
         }
     },
 }));
@@ -56,6 +62,30 @@ const WindowWidth = () => {
     }, []);
   
     return width;
+}
+
+const useOnClickOutside = (ref, handler, exceptional) => {
+    useEffect(
+      () => {
+        const listener = event => {
+          if (!ref.current || ref.current.contains(event.target) || exceptional.current.contains(event.target) ) {
+            return;
+          }
+  
+          handler(event);
+        };
+  
+        document.addEventListener('mousedown', listener);
+        document.addEventListener('touchstart', listener);
+  
+        return () => {
+          document.removeEventListener('mousedown', listener);
+          document.removeEventListener('touchstart', listener);
+        };
+      },
+      
+      [ref, handler, exceptional]
+    );
   }
   
 
@@ -65,6 +95,11 @@ const Hero = () => {
     const width = WindowWidth();
     const [showMobileMenu, setShowMobileMenu] = useState(false)
     const [sticky, setSticky] = useState();
+    const ref = useRef();
+    const exceptional = useRef();
+    
+    useOnClickOutside(ref, () => setShowMobileMenu(false), exceptional);
+
     const handleScroll = () => {
         if(window.pageYOffset > 61) {
             setSticky(true)
@@ -91,6 +126,10 @@ const Hero = () => {
         setShowMobileMenu(!showMobileMenu)
     }
 
+    const goToPage = () => {
+        setShowMobileMenu(false)
+    }
+
     return (
         <section id="hero-part">
             <div className="bg"></div>
@@ -111,17 +150,17 @@ const Hero = () => {
                             </div>                        
                             <button className={`outline-btn ${sticky ? "sticky" : ""}`}>WHAT WE DO</button>
                         </div> : 
-                        <img src={sticky ? MenuImgBlack : MenuImgWhite} alt="" onClick={() => toggleMobileMenu()}/>
+                        <img src={sticky ? MenuImgBlack : MenuImgWhite} alt="" onClick={() => toggleMobileMenu()} ref={exceptional}/>
                     }                    
                 </div>
                 {
                     showMobileMenu ? 
-                    <div className="mobile-menu">
+                    <div className="mobile-menu" ref={ref}>
                         <div className="menu-item" >
-                            <a href="#who-we-are">WHO WE ARE</a>
+                            <a href="#who-we-are" onClick={() => goToPage()}>WHO WE ARE</a>                            
                         </div>
                         <div className="menu-item">
-                            <a href="#what-we-do">WHAT WE DO</a>
+                            <a href="#what-we-do" onClick={() => goToPage()}>WHAT WE DO</a>                            
                         </div>
                         <div className="menu-item">
                             <button className="outline-btn">WHAT WE DO</button>
