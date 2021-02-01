@@ -60,6 +60,7 @@ html {
                 &.sticky {
                     .nav-item {
                         margin-right: 60px;
+                        z-index: 4;
     
                         a {
                             font-size: 12px;
@@ -72,6 +73,7 @@ html {
 
                 .nav-item {
                     margin-right: 60px;
+                    z-index: 4;
 
                     &:last-child {
                         margin: 0;
