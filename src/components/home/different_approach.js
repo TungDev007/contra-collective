@@ -92,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 389
         }
     },
+    contact_link: {
+        marginTop: 70
+    },
     [theme.breakpoints.down('md')]: {
         our_approach: {
             padding: 20,
@@ -153,7 +156,9 @@ const DifferentApproach = () => {
                         <h3>A Different Approach</h3>
                         <p>Oftentimes, you have to take a step back and see the big picture to determine the road forward. </p>
                         <p>At Contra Collective, we come in detached and solve problems with  “bird’s eye” intelligence and innovative “deep dive” engineering.</p>
-                        <button className="default-btn">Let’s Build My Product</button>
+                        <div className={classes.contact_link}>
+                            <a href="#contact" className="default-btn">Let’s Build My Product</a>
+                        </div>                        
                     </Grid>
                 </Grid>
             </div>

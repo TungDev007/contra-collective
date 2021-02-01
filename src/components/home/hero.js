@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
         top: 0,
         zIndex: 1
     },
+    contact_link: {
+        marginTop: 70
+    },
     [theme.breakpoints.down('sm')]: {
         right_image: {
             display: 'none'
@@ -136,9 +139,11 @@ const Hero = () => {
             <div className="fake-background"></div>           
             <div className={`header ${sticky ? "sticky" : ""}`}>
                 <div className="content-container">
-                    {
-                        sticky ? <img src={LogoBlack} alt=""/> : <img src={LogoWhite} alt=""/>
-                    }
+                    <a href="#hero-part">
+                        {
+                            sticky ? <img src={LogoBlack} alt=""/> : <img src={LogoWhite} alt=""/>
+                        }
+                    </a>                    
                     {
                         width > 1024 ? 
                         <div className={`right-control ${sticky ? "sticky" : ""}`}>
@@ -175,8 +180,10 @@ const Hero = () => {
                     <Grid container> 
                         <Grid item xs={12} md={6} className={classes.text_part}>
                             <h1>We’re a full-stack engineering house without the extra baggage.</h1>
-                            <p>Our agility as a nimble team coupled with our technical acumen allows us to build cross-device software that is highly consumable and achieves your product goals.</p>
-                            <button className="default-btn">Let’s Talk</button>
+                            <p>Our agility as a nimble team coupled with our technical acumen allows us to build cross-device software that is highly consumable and achieves your product goals.</p>                            
+                            <div className={classes.contact_link}>
+                                <a href="#contact" className="default-btn">Let’s Talk</a>
+                            </div>
                         </Grid>
                     </Grid>
                 </div>

@@ -88,7 +88,11 @@ const Footer = () => {
                     </Grid>
                     <Grid item xs={12} md={3}/>
                     <Grid item xs={12} md={3} className={classes.footer_other_item}>
-                        <img src={Logo} alt=""/>
+                        <div>
+                            <a href="#hero-part">
+                                <img src={Logo} alt=""/>
+                            </a>
+                        </div>
                         <p>© 2021 Contra Collective LLC.</p>
                     </Grid>
                 </Grid>
