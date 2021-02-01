@@ -78,7 +78,7 @@ const WhatPeopleSay = () => {
             name: 'Sigmund Neuram',
             role: 'Head Manager @ Dolor Amet',             
             location: 'Virginia, USA',
-            img: User2
+            img: User3
         },
         {
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet tortor bibendum adipiscing erat adipiscing tellus. Vitae porttitor pretium, nec egestas justo morbi. Augue ipsum neque, faucibus pellentesque. Facilisis venenatis amet in lectus congue quam sus-pendisse.',

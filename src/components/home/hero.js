@@ -147,8 +147,10 @@ const Hero = () => {
                             </div>
                             <div className="nav-item">
                                 <a href="#what-we-do">WHAT WE DO</a>
-                            </div>                        
-                            <button className={`outline-btn ${sticky ? "sticky" : ""}`}>WHAT WE DO</button>
+                            </div>
+                            <div className="nav-item">
+                                <a href="#contact" className={`outline-btn ${sticky ? "sticky" : ""}`}>GET IN TOUCH</a>
+                            </div>                                                 
                         </div> : 
                         <img src={sticky ? MenuImgBlack : MenuImgWhite} alt="" onClick={() => toggleMobileMenu()} ref={exceptional}/>
                     }                    
@@ -163,7 +165,7 @@ const Hero = () => {
                             <a href="#what-we-do" onClick={() => goToPage()}>WHAT WE DO</a>                            
                         </div>
                         <div className="menu-item">
-                            <button className="outline-btn">WHAT WE DO</button>
+                            <a href="#contact" className="outline-btn">GET IN TOUCH</a>
                         </div>            
                     </div> : null
                 }
