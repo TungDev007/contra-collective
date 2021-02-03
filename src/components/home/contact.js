@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
         },
 
         '& textarea': {
-            margin: '50px 0',
+            margin: '50px 0 0',
             backgroundColor: 'transparent',
             width: 'calc(100% - 30px)',
             border: '2px solid #FFFFFF',
@@ -81,6 +81,18 @@ const useStyles = makeStyles((theme) => ({
                 fontWeight: 400,
                 fontStyle: 'italic'
             }
+        },
+
+        '& .error-msg': {
+            color: 'red'
+        },
+
+        '& .default-btn': {
+            marginTop: 50
+        },
+
+        '& .MuiFormHelperText-root': {
+            fontFamily: `'Montserrat', sans-serif`
         }
     },
     paper: {
@@ -135,19 +147,58 @@ const Contact = () => {
     });
     const [selectedOption, setSelectedOption] = useState();
 
+    const [formDataError, setFormDataError] = useState({
+        Name: '',
+        Email: '',
+        Budget: '',
+        Description: ''
+    });
+
     const handleChange = (option) => {
-        console.log('selectedOption', option)
+        setFormDataError((formDataError) => ({...formDataError, Budget: ''}))
         setSelectedOption(option);
-        setFormData({ ...formData, Budget: option })
+        setFormData({ ...formData, Budget: option.value })
     }
 
-    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    useEffect(() => {
+        if(selectedOption === '') {
+            setFormDataError((formDataError) => ({...formDataError, Budget: 'This field should not be empty.'}))
+        } else {
+            setFormDataError((formDataError) => ({...formDataError, Budget: ''}))
+        }
+    }, [selectedOption])
+
+    const validateInput = (value, stateName) => {
+        if (!value) {
+            setFormDataError((formDataError) => ({...formDataError, [stateName]: 'This field should not be empty.'}))
+            return false;
+        } else {
+            setFormDataError((formDataError) => ({...formDataError, [stateName]: ''}))
+            return true;
+        }
+    }
+
+    const onChange = (value, stateName) => {
+        validateInput(value, stateName)
+        setFormData({...formData, [stateName]: value})
+    }
 
     const handleSubmit = () => {
-        const contact_form = document.forms['contact-form'];
+
+        const result = Object.keys(formData).map((key) => {
+            return validateInput(formData[key], key)
+        })
+
+        const isInvalid = result.filter((r) => !r).length > 0;
+
+        if (isInvalid || formData.Budget === "") {
+            setFormDataError((formDataError) => ({...formDataError, Budget: 'This field should not be empty.'}))
+            return
+        }
+        
         const contact_url = 'https://script.google.com/macros/s/AKfycbxDzYPStsjjm4f0DoXQg2t4Opj0fyh_XXw1FkX_xrYTkrPY8XZn/exec';
 
-        fetch(contact_url, {method: 'POST', mode: 'no-cors', body: new FormData(contact_form)})
+        fetch(contact_url, {method: 'POST', mode: 'no-cors', body: JSON.stringify(formData)})
         .then(res => setModalOpen(true))
         .catch(error => console.error('Error!', error.message))
     }
@@ -169,7 +220,15 @@ const Contact = () => {
                         <form name="contact-form">
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
-                                    <TextField id="name" label="Name" name="Name" className={classes.textField} onChange={(e) => onChange(e)} />
+                                    <TextField 
+                                        id="name" label="Name" 
+                                        name="Name" 
+                                        className={classes.textField}
+                                        value={formData.Name}
+                                        onChange={(e) => onChange(e.target.value, 'Name')}
+                                        helperText={formDataError.Name}
+                                        error={formDataError.Name !== ""}
+                                    />
                                 </Grid>
                                 {/* <Grid item xs={12} md={6}>
                                     <TextField id="surname" label="Surname" className={classes.textField} />
@@ -177,7 +236,15 @@ const Contact = () => {
                             </Grid>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
-                                    <TextField id="email" label="Email" name="Email" className={classes.textField} onChange={(e) => onChange(e)}/>
+                                    <TextField 
+                                        id="email" label="Email" 
+                                        name="Email" 
+                                        className={classes.textField} 
+                                        onChange={(e) => onChange(e.target.value, 'Email')} 
+                                        value={formData.Email}
+                                        helperText={formDataError.Email}
+                                        error={formDataError.Name !== ""}
+                                    />
                                 </Grid>
                             </Grid>
                             <Grid container spacing={3}>
@@ -187,19 +254,30 @@ const Contact = () => {
                                 <Grid item xs={12}>                                
                                     <Select
                                         value={selectedOption}
-                                        onChange={() => handleChange(selectedOption)}
+                                        onChange={handleChange}
                                         options={options}
                                         styles={customStyles}
                                         placeholder="Your Budget"
                                         classNamePrefix="custom-select"
                                         className="custom-select"
-                                        name="Budget"                                 
+                                        name="Budget"
+                                        rules={{ required: 'Please select an option'}}
+                                        getOptionValue={(option) => option.value}
+                                        getOptionLabel={(option) => option.label}                             
                                     />
+                                    {formDataError.Budget && <p className="error-msg">{formDataError.Budget}</p>}
                                 </Grid>
                             </Grid>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
-                                    <textarea name="Description" cols="30" rows="10" placeholder="Your project description..." onChange={(e) => onChange(e)}></textarea>
+                                    <textarea 
+                                        name="Description" 
+                                        cols="30" rows="10" 
+                                        placeholder="Your project description..." 
+                                        onChange={(e) => onChange(e.target.value, 'Description')}
+                                        value={formData.Description}
+                                    ></textarea>
+                                    {formDataError.Description && <p className="error-msg">{formDataError.Description}</p>}
                                 </Grid>
                             </Grid>
                         </form>                                                
