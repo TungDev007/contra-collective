@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Modal from '@material-ui/core/Modal';
 import Select from 'react-select';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& input': {
-            color: 'white',
-            padding: '5px 0 10px'
+            color: 'white !important',
+            padding: '5px 0 10px',
+            backgroundColor: 'transparent !important'
         },
         '& select': {
             color: 'white',
@@ -64,11 +66,12 @@ const useStyles = makeStyles((theme) => ({
         '& textarea': {
             margin: '50px 0',
             backgroundColor: 'transparent',
-            width: 'calc(100% - 24px)',
+            width: 'calc(100% - 30px)',
             border: '2px solid #FFFFFF',
             outline: 'none',
             padding: '31px 0 0 25px',
             color: 'white',
+            fontSize: 15,
 
             '&::placeholder': {
                 fontSize: 15,
@@ -79,15 +82,31 @@ const useStyles = makeStyles((theme) => ({
                 fontStyle: 'italic'
             }
         }
-    }
+    },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        top: `50%`,
+        left: `50%`,
+        transform: `translate(-50%, -50%)`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        textAlign: 'center',
+        outline: 'none'
+    },
 }))
 
 const options = [
-    { value: 1, label: '$2 000 - $5 000' },
-    { value: 2, label: '$5 000 - $10 000' },
-    { value: 3, label: '$10 000 - $50 000' },
-    { value: 4, label: '$50 000 - $150 000' },
-    { value: 5, label: '< than $150 000' },
+    { value: '2-5K', label: '$2 000 - $5 000' },
+    { value: '5-10K', label: '$5 000 - $10 000' },
+    { value: '10-50K', label: '$10 000 - $50 000' },
+    { value: '50-150K', label: '$50 000 - $150 000' },
+    { value: '150K+', label: '< than $150 000' },
 ];
 
 const customStyles = {
@@ -107,11 +126,36 @@ const customStyles = {
 
 const Contact = () => {
     const classes = useStyles();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        Name: '',
+        Email: '',
+        Budget: '',
+        Description: ''
+    });
     const [selectedOption, setSelectedOption] = useState();
 
-    const handleChange = (selectedOption) => {
-        setSelectedOption(selectedOption)
+    const handleChange = (option) => {
+        console.log('selectedOption', option)
+        setSelectedOption(option);
+        setFormData({ ...formData, Budget: option })
     }
+
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleSubmit = () => {
+        const contact_form = document.forms['contact-form'];
+        const contact_url = 'https://script.google.com/macros/s/AKfycbxDzYPStsjjm4f0DoXQg2t4Opj0fyh_XXw1FkX_xrYTkrPY8XZn/exec';
+
+        fetch(contact_url, {method: 'POST', mode: 'no-cors', body: new FormData(contact_form)})
+        .then(res => setModalOpen(true))
+        .catch(error => console.error('Error!', error.message))
+    }
+
+    const handleClose = () => {
+        setModalOpen(false)
+    }
+
     return (
         <section id="contact" className={classes.root}>
             <div className="content-container">
@@ -122,43 +166,58 @@ const Contact = () => {
                         <p>Submit the form to get in touch with us.</p>
                     </Grid>  
                     <Grid item xs={12} md={6} className={classes.half_item}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="name" label="Name" className={classes.textField} />
+                        <form name="contact-form">
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <TextField id="name" label="Name" name="Name" className={classes.textField} onChange={(e) => onChange(e)} />
+                                </Grid>
+                                {/* <Grid item xs={12} md={6}>
+                                    <TextField id="surname" label="Surname" className={classes.textField} />
+                                </Grid> */}
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="surname" label="Surname" className={classes.textField} />
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <TextField id="email" label="Email" name="Email" className={classes.textField} onChange={(e) => onChange(e)}/>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12}>
-                                <TextField id="email" label="Email" className={classes.textField} />
+                            <Grid container spacing={3}>
+                                {/* <Grid item xs={12} md={7}>
+                                    <TextField id="phone" label="Phone" className={classes.textField} />
+                                </Grid> */}
+                                <Grid item xs={12}>                                
+                                    <Select
+                                        value={selectedOption}
+                                        onChange={() => handleChange(selectedOption)}
+                                        options={options}
+                                        styles={customStyles}
+                                        placeholder="Your Budget"
+                                        classNamePrefix="custom-select"
+                                        className="custom-select"
+                                        name="Budget"                                 
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={7}>
-                                <TextField id="phone" label="Phone" className={classes.textField} />
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <textarea name="Description" cols="30" rows="10" placeholder="Your project description..." onChange={(e) => onChange(e)}></textarea>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} md={5}>                                
-                                <Select
-                                    value={selectedOption}
-                                    onChange={() => handleChange(selectedOption)}
-                                    options={options}
-                                    styles={customStyles}
-                                    placeholder="Your Budget"
-                                    classNamePrefix="custom-select"
-                                    className="custom-select"                                    
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12}>
-                                <textarea name="" id="" cols="30" rows="10" placeholder="Your project description..."></textarea>
-                            </Grid>
-                        </Grid>                        
-                        <button className="default-btn">Submit</button>
+                        </form>                                                
+                        <button className="default-btn" onClick={() => handleSubmit()}>Submit</button>
                     </Grid>  
-                </Grid>                
+                </Grid>
+                <Modal
+                    open={modalOpen}
+                    onClose={handleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    <div className={classes.paper}>
+                        <h2 id="simple-modal-title">Thank You</h2>
+                        <p id="simple-modal-description">Thank you! You have submitted your note to the team at Contra Collective!</p>
+                        <button className="default-border-btn" onClick={handleClose}>Okay</button>
+                    </div>
+                </Modal>                
             </div>            
         </section>
     )

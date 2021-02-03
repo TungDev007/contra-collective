@@ -230,6 +230,21 @@ button.default-btn {
     min-width: 189px;
 }
 
+button.default-border-btn {
+    padding: 10px 20px;
+    background-color: #EC772F;
+    font-weight: 600;
+    font-size: 17.5px;
+    line-height: 24px;
+    text-align: center;
+    color: white;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    min-width: 189px;
+    border-radius: 30px;
+}
+
 a.default-btn {
     padding: 22px 40px;
     background-color: #EC772F;
