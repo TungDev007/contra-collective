@@ -6,7 +6,7 @@ import WhyChooseUs from '../components/home/why_choose_us';
 import WhatWeDo from '../components/home/what_we_do';
 import ProductList from '../components/home/product_list';
 import Agility from '../components/home/agility';
-import WhatPeopleSay from '../components/home/what_people_say';
+// import WhatPeopleSay from '../components/home/what_people_say';
 import Contact from '../components/home/contact';
 import Footer from '../components/home/footer';
 import '../assets/styles/home.scss';
@@ -21,7 +21,7 @@ const HomePage = () => {
             <WhatWeDo />
             <ProductList />
             <Agility />
-            <WhatPeopleSay />
+            {/* <WhatPeopleSay /> */}
             <Contact />
             <Footer />
         </div>
