@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import LogoWhite from '../../assets/images/white-logo.svg';
-import LogoBlack from '../../assets/images/contralogo.svg';
+import LogoWhite from '../../assets/images/white-logo.png';
+import LogoBlack from '../../assets/images/black-logo.png';
 import RightImg from '../../assets/images/hero-right.svg';
 import MenuImgBlack from '../../assets/images/mobile-menu_black.svg';
 import MenuImgWhite from '../../assets/images/mobile-menu_white.svg';
