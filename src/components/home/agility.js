@@ -1,11 +1,14 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Image1 from '../../assets/images/agility/1.png';
+import Image2 from '../../assets/images/agility/2.png';
+import Image3 from '../../assets/images/agility/3.png';
 
 const agilityList = [
-    { id: 1, text: 'Allows you to interact with your customers in a real way.'},
-    { id: 2, text: 'Increases product diversification and customer accessibility.'},
-    { id: 3, text: 'Solves inefficiencies and maximizes profitability.'},
+    { id: 1, text: 'Allows you to interact with your customers in a real way.', img: Image1},
+    { id: 2, text: 'Increases product diversification and customer accessibility.', img: Image2},
+    { id: 3, text: 'Solves inefficiencies and maximizes profitability.', img: Image3},
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -16,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         flexDirection: 'column',
 
-        '& .title_part': {
-            padding: '55px 0',
+        '& .title_part': {            
             width: '100%'
         },
 
@@ -27,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
             fontWeight: 400,
             color: '#1A1A1A',
             letterSpacing: '0.02em',
-            maxWidth: 304,
-            margin: '66px 0 0'
+            maxWidth: 304,            
         },
 
         '&  h1': {
@@ -101,9 +102,10 @@ const Agility = () => {
                         agilityList.map((item, index) =>(
                             <Grid item xs={12} md={4} key={index} className={classes.agility_item + ' item-' + item.id}>
                                 <div className="title_part">
-                                    <h1>{item.id}</h1>
+                                    {/* <h1>{item.id}</h1> */}
+                                    <img src={item.img} alt=""/>
                                 </div>
-                                <div className="border"/>
+                                {/* <div className="border"/> */}
                                 <p>{item.text}</p>
                             </Grid>
                         ))
