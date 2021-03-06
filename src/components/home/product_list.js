@@ -1,10 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import productImg1 from '../../assets/images/products/phone.svg';
-import productImg2 from '../../assets/images/products/web.svg';
-import productImg3 from '../../assets/images/products/web_app.svg';
-import productImg4 from '../../assets/images/products/connection.svg';
+import productImg1 from '../../assets/images/products/custom.svg';
+import productImg2 from '../../assets/images/products/shopify.svg';
+import productImg3 from '../../assets/images/products/web.svg';
+import productImg4 from '../../assets/images/products/erp.svg';
+import productImg5 from '../../assets/images/products/ui.svg';
 import productImg6 from '../../assets/images/products/store.svg';
 
 const products = [
@@ -29,7 +30,7 @@ const products = [
         description: 'We implement customizations, integrations, and workflows to maximize your efficiency.'
     },
     {
-        img: productImg1,
+        img: productImg5,
         title: 'UI/UX Design',
         description: 'We build custom web apps, from tailored dashboards to headless eCommerce experiences.'
     },
