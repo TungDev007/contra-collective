@@ -1,9 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Logo1 from '../../assets/images/partners/shopify.png';
-import Logo2 from '../../assets/images/partners/contentful.png';
-import Logo3 from '../../assets/images/partners/docebo.png';
+import Logo1 from '../../assets/images/new_partners/partner1.png';
+import Logo2 from '../../assets/images/new_partners/partner2.png';
+import Logo3 from '../../assets/images/new_partners/partner3.png';
 
 const logoList = [Logo1, Logo2, Logo3];
 
