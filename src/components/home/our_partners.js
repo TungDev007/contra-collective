@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     image_group: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 20,
 
         [theme.breakpoints.down('sm')]: {
             flexDirection: 'column'
